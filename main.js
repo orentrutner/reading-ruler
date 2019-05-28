@@ -34,19 +34,35 @@
     };
     var elementRect;
 
+    function caretInfoFromPoint(x, y) {
+        if (document.caretPositionFromPoint) {
+            const position = document.caretPositionFromPoint(x, y);
+            return {
+                node: position.offsetNode,
+                rect: position.getClientRect()
+            };
+        } else if (document.caretRangeFromPoint) {
+            const range = document.caretRangeFromPoint(x, y);
+            return range
+                ? {
+                    node: range.commonAncestorContainer,
+                    rect: range.getBoundingClientRect()
+                  }
+                : null;
+        }
+    }
+
     function positionRuler() {
-        const caretPosition = document.caretPositionFromPoint(mousePosition.x, mousePosition.y);
-        if (caretPosition.offsetNode.nodeType !== 3) {
+        const caretInfo = caretInfoFromPoint(mousePosition.x, mousePosition.y);
+        if (!caretInfo || caretInfo.node.nodeType !== 3) {
             return;
         }
-
-        const caretRect = caretPosition.getClientRect();
 
         ruler.style.left = Math.round(elementRect.x - padding.x) + 'px';
         ruler.style.width = Math.round(elementRect.width + 2 * padding.x) + 'px';
 
-        ruler.style.top = Math.round(caretRect.y - padding.y) + 'px';
-        ruler.style.height = Math.round(caretRect.height + 2 * padding.y) + 'px';
+        ruler.style.top = Math.round(caretInfo.rect.y - padding.y) + 'px';
+        ruler.style.height = Math.round(caretInfo.rect.height + 2 * padding.y) + 'px';
     }
 
     document.onmousemove = function(e) {
