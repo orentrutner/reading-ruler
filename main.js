@@ -32,7 +32,12 @@
         x: 0,
         y: 0
     };
-    var elementRect;
+    const elementRect = {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
+    };
 
     function caretInfoFromPoint(x, y) {
         if (document.caretPositionFromPoint) {
@@ -52,6 +57,19 @@
         }
     }
 
+    function trackHoverElement(element) {
+        const safeElement = element || document.elementFromPoint(mousePosition.x, mousePosition.y);
+        if (!safeElement) {
+            return;
+        }
+
+        const rect = safeElement.getBoundingClientRect();
+        elementRect.x = rect.x;
+        elementRect.y = rect.y;
+        elementRect.width = rect.width;
+        elementRect.height = rect.height;
+    }
+
     function positionRuler() {
         const caretInfo = caretInfoFromPoint(mousePosition.x, mousePosition.y);
         if (!caretInfo || caretInfo.node.nodeType !== 3) {
@@ -69,12 +87,12 @@
         mousePosition.x = e.x;
         mousePosition.y = e.y;
 
-        elementRect = e.target.getBoundingClientRect();
-
+        trackHoverElement(e.target);
         positionRuler();
     }
 
     document.onscroll = function(e) {
+        trackHoverElement(null);
         positionRuler();
     }
 })();
