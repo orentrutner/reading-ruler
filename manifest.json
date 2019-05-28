@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+  "name": "Reading Ruler",
+  "version": "1.0",
+  "description": "Adds a reading ruler.",
+
+  "applications": {
+    "gecko": {
+      "id": "reading-ruler@factualcomposites.com"
+    }
+  },
+
+  "icons": {
+    "48": "icons/ruler-48.png",
+    "96": "icons/ruler-96.png"
+  },
+
+  "content_scripts": [{
+    "matches": ["*://*/*"],
+    "js": ["main.js"]
+  }]
+}
