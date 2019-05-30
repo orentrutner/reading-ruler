@@ -11,6 +11,7 @@
 
   "content_scripts": [{
     "matches": ["*://*/*"],
-    "js": ["main.js"]
+    "js": ["main.js"],
+    "all_frames": true
   }]
 }
