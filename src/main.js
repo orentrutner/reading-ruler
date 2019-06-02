@@ -1,35 +1,7 @@
 (function() {
     // constants
-    const padding = {
-        x: 4,
-        y: 2
-    };
-
-    // ruler style
-    const style = document.createElement('style');
-    document.head.appendChild(style);
-    style.appendChild(document.createTextNode(`
-        .ruler-ff-extension-ruler {
-            background-color: steelblue;
-            border-radius: 4px;
-            opacity: 0.2;
-
-            position: fixed;
-            z-index: 2147483646;
-
-            pointer-events: none;
-            transition: all 0.1s;
-        }
-        .ruler-ff-extension-watermark {
-            border-bottom: 2px solid red;
-
-            position: fixed;
-            z-index: 2147483647;
-
-            pointer-events: none;
-            transition: all 0.1s;
-        }
-    `));
+    const padding = { x: 4, y: 2 };
+    const ELEMENTS_TO_HIGHLIGHT = new Set(['hg', 'img', 'svg', 'video']);
 
     // create the ruler
     const ruler = document.createElement('div');
@@ -64,21 +36,33 @@
         return null;
     }
 
-    function caretInfoFromPoint(x, y) {
-        if (document.caretPositionFromPoint) {
-            const position = document.caretPositionFromPoint(x, y);
-            return {
-                node: position.offsetNode,
-                rect: position.getClientRect()
-            };
-        } else if (document.caretRangeFromPoint) {
-            const range = document.caretRangeFromPoint(x, y);
-            return range
-                ? {
-                    node: range.commonAncestorContainer,
-                    rect: range.getBoundingClientRect()
-                  }
-                : null;
+    function rulerPositionFromPoint(x, y) {
+        const caretInfo = caretInfoFromPoint(x, y);
+        if (!caretInfo) {
+            return null;
+        }
+
+        switch (caretInfo.node.nodeType) {
+            case 1:
+                const element = document.elementFromPoint(x, y);
+                if (ELEMENTS_TO_HIGHLIGHT.has(element.nodeName.toLowerCase())) {
+                    return {
+                        node: element,
+                        rect: hoverElementRect
+                    };    
+                } else {
+                    return null;
+                }
+            case 3: return {
+                    node: caretInfo.node,
+                    rect: {
+                        x: hoverElementRect.x,
+                        y: caretInfo.rect.y,
+                        width: hoverElementRect.width,
+                        height: caretInfo.rect.height
+                    }
+                };
+            default: return null;
         }
     }
 
@@ -95,25 +79,22 @@
         hoverElementRect.height = rect.height;
     }
 
-    function positionElementAt(element, left, top, width, height) {
-        element.style.left = Math.round(left) + 'px';
-        element.style.top = Math.round(top) + 'px';
-        element.style.width = Math.round(width) + 'px';
-        element.style.height = Math.round(height) + 'px';
+    function positionElementAt(element, rect) {
+        element.style.left = Math.round(rect.x) + 'px';
+        element.style.top = Math.round(rect.y) + 'px';
+        element.style.width = Math.round(rect.width) + 'px';
+        element.style.height = Math.round(rect.height) + 'px';
     }
 
     function positionRuler() {
-        const caretInfo = caretInfoFromPoint(mousePosition.x, mousePosition.y);
-        if (!caretInfo || caretInfo.node.nodeType !== 3) {
+        const caretInfo = rulerPositionFromPoint(mousePosition.x, mousePosition.y);
+        if (!caretInfo) {
             return;
         }
 
-        positionElementAt(
-            ruler,
-            hoverElementRect.x - padding.x,
-            caretInfo.rect.y - padding.y,
-            hoverElementRect.width + 2 * padding.x,
-            caretInfo.rect.height + 2 * padding.y);
+        const rect = caretInfo.rect;
+        inflateRect(rect, padding.x, padding.y);
+        positionElementAt(ruler, rect);
 
         maxRulerPosition = Math.max(maxRulerPosition, caretInfo.rect.y);
         // positionElementAt(

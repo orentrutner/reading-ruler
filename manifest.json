@@ -6,12 +6,14 @@
 
   "icons": {
     "48": "icons/ruler-48.png",
-    "96": "icons/ruler-96.png"
+    "96": "icons/ruler-96.png",
+    "128": "icons/ruler-128.png"
   },
 
   "content_scripts": [{
     "matches": ["*://*/*"],
-    "js": ["main.js"],
+    "css": ["css/main.css"],
+    "js": ["src/rect.js", "src/polyfills.js", "src/main.js"],
     "all_frames": true
   }]
 }
