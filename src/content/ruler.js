@@ -17,40 +17,53 @@ class Ruler {
         }
     }
 
+    // Public methods
+
+    /** Enables the ruler.  It will stay enabled until explicitly disabled. */
     enable() {
         this.enabled = true;
         this.show();
     }
 
+    /** Disables the ruler.  It will stay disabled until explicitly enabled. */
     disable() {
         this.enabled = false;
         this.hide();
     }
 
+    /** Show the ruler. */
     show() {
         this.element.style.opacity = 0.2;
     }
 
+    /** Hide the ruler. */
     hide() {
         this.element.style.opacity = 0;
     }
 
+    /** Position and show the ruler on the text row around a mouse coordinate. */
     positionAround(x, y) {
+        // Do nothing if disabled.
         if (!this.enabled) {
             return;
         }
 
+        // Find the row bounds.
         const bounds = this.boundsAroundPoint(x, y);
         if (!bounds) {
             this.hide();
             return;
         }
 
+        // Make sure the ruler is visible.
         this.show();
 
+        // Position the ruler.
         inflateRect(bounds, this.PADDING.x, this.PADDING.y);
         this.positionAt(bounds);
     }
+
+    // Private methods
 
     positionAt(rect) {
         this.element.style.left = Math.round(rect.x) + 'px';

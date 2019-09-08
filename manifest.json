@@ -12,24 +12,27 @@
     "128": "icons/ruler-128.png"
   },
 
-  "browser_action": {
+  "page_action": {
+    "browser_style": true,
     "default_icon": {
       "48": "icons/ruler-48.png",
       "96": "icons/ruler-96.png",
       "128": "icons/ruler-128.png"
     },
-    "default_popup": "popup/popup.html"
+    "default_popup": "popup/popup.html",
+    "show_matches": ["http://*/*", "https://*/*"]
   },
 
   "background": {
     "scripts": [
+      "src/common/extension.js",
       "src/common/options.js",
       "src/background/background.js"
     ]
   },
 
   "content_scripts": [{
-    "matches": ["*://*/*"],
+    "matches": ["http://*/*", "https://*/*"],
     "css": ["css/main.css"],
     "js": [
       "src/content/range.js",
