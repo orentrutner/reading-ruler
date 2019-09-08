@@ -24,7 +24,13 @@
   "content_scripts": [{
     "matches": ["*://*/*"],
     "css": ["css/main.css"],
-    "js": ["src/content/rect.js", "src/content/polyfills.js", "src/content/main.js"],
+    "js": [
+      "src/content/range.js",
+      "src/content/rect.js",
+      "src/content/polyfills.js",
+      "src/content/ruler.js",
+      "src/content/main.js"
+    ],
     "all_frames": true
   }]
 }

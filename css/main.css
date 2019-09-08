@@ -4,15 +4,6 @@
     opacity: 0.2;
 
     position: fixed;
-    z-index: 2147483646;
-
-    pointer-events: none;
-    transition: all 0.1s;
-}
-.ruler-ff-extension-watermark {
-    border-bottom: 2px solid red;
-
-    position: fixed;
     z-index: 2147483647;
 
     pointer-events: none;
