@@ -38,7 +38,7 @@
 
     function rulerPositionFromPoint(x, y) {
         const caretInfo = caretInfoFromPoint(x, y);
-        if (!caretInfo) {
+        if (!caretInfo || !caretInfo.node) {
             return null;
         }
 
@@ -49,7 +49,7 @@
                     return {
                         node: element,
                         rect: hoverElementRect
-                    };    
+                    };
                 } else {
                     return null;
                 }

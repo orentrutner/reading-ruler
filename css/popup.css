@@ -1,0 +1,28 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #0c0c0d;
+    margin: 24px;
+    user-select: none;
+}
+
+h1 {
+    font-size: 36px;
+    font-weight: 200;
+}
+
+h2 {
+    font-size: 22px;
+    font-weight: 300;
+}
+
+h3 {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+h4 {
+    font-size: 13px;
+    font-weight: 600;
+}
