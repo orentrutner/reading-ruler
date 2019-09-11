@@ -25,6 +25,7 @@
 
   "background": {
     "scripts": [
+      "src/common/polyfills.js",
       "src/common/extension.js",
       "src/common/options.js",
       "src/background/background.js"
@@ -35,6 +36,7 @@
     "matches": ["http://*/*", "https://*/*"],
     "css": ["css/main.css"],
     "js": [
+      "src/common/polyfills.js",
       "src/content/range.js",
       "src/content/rect.js",
       "src/content/polyfills.js",
