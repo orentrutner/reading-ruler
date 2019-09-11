@@ -1,0 +1,12 @@
+{
+  "name": "ruler-ff-extension",
+  "version": "1.0.0",
+  "description": "Reading Ruler browser extension",
+  "main": "main.js",
+  "repository": "git@github.com:orentrutner/ruler-ff-extension.git",
+  "author": "Oren Trutner <orentrutner@gmail.com>",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "webextension-polyfill": "^0.4.0"
+  }
+}
