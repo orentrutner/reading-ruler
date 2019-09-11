@@ -3,12 +3,15 @@ class Ruler {
     PADDING = { x: 4, y: 2 };
 
     enabled = true;
+    element = null;
+    lastPosition = null;
+    isVisible = true;
 
     constructor() {
         const PREFIX = 'ruler-ff-extension-';
         const RULER_ID = PREFIX + 'ruler';
 
-        this.element = document.getElementById(RULER_ID);
+        this.element = document.getElementById(RULER_ID)
         if (!this.element) {
             this.element = document.createElement('div');
             this.element.id = RULER_ID;
@@ -33,12 +36,18 @@ class Ruler {
 
     /** Show the ruler. */
     show() {
-        this.element.style.opacity = 0.2;
+        if (!this.isVisible) {
+            this.element.style.opacity = 0.2;
+            this.isVisible = true;
+        }
     }
 
     /** Hide the ruler. */
     hide() {
-        this.element.style.opacity = 0;
+        if (this.isVisible) {
+            this.element.style.opacity = 0;
+            this.isVisible = false;
+        }
     }
 
     /** Position and show the ruler on the text row around a mouse coordinate. */
@@ -66,22 +75,25 @@ class Ruler {
     // Private methods
 
     positionAt(rect) {
+        if (rectsAreEqual(rect, this.lastPosition)) {
+            return;
+        }
+
         this.element.style.left = Math.round(rect.x) + 'px';
         this.element.style.top = Math.round(rect.y) + 'px';
         this.element.style.width = Math.round(rect.width) + 'px';
         this.element.style.height = Math.round(rect.height) + 'px';
+
+        this.lastPosition = rect;
     }
 
     boundsAroundPoint(x, y) {
         const caretInfo = caretInfoFromPoint(x, y);
-        if (!caretInfo || !caretInfo.node) {
+        if (!caretInfo || !caretInfo.node || !rangeContainsOrIsNear(y, caretInfo.rect.top, caretInfo.rect.bottom, 1)) {
             return null;
         }
 
         const rowRect = this.textRowBoundsAround(x, y);
-        if (!rangeContains(y, rowRect.top, rowRect.bottom)) {
-            return null;
-        }
 
         switch (caretInfo.node.nodeType) {
             case 1: // element
