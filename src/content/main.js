@@ -1,3 +1,29 @@
+/*
+ * Copyright 2020 Oren Trutner
+ *
+ * This file is part of Reading Ruler.
+ *
+ * Reading Ruler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Reading Ruler is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Reading Ruler.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+/**
+ * This is the entry point for the extension's "content" script, i.e. the script
+ * that executes within every web page that the browser loads.
+ *
+ * It creates a single ruler and sets up event handlers to highlight the line
+ * under the mouse cursor every time the mouse moves or the page scrolls.
+ */
 (function() {
     // Create the ruler.
     const ruler = new Ruler();
@@ -32,7 +58,7 @@
         // Invoke any previous mouse move handler.
         if (originalOnMouseMove) {
             try { originalOnMouseMove(e); }
-            catch(exception) { /* ignore; likely dead reference */}
+            catch(exception) { /* ignore; likely dead reference */ }
         }
     }
 
@@ -45,7 +71,7 @@
         // Invoke any previous scroll handler.
         if (originalOnScroll) {
             try { originalOnScroll(e); }
-            catch(exception) { /* ignore; likely dead reference */}
+            catch(exception) { /* ignore; likely dead reference */ }
         }
     }
 })();

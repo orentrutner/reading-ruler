@@ -1,3 +1,27 @@
+/*
+ * Copyright 2020 Oren Trutner
+ *
+ * This file is part of Reading Ruler.
+ *
+ * Reading Ruler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Reading Ruler is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Reading Ruler.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+/**
+ * Represents a "ruler" that highlights a line of text.
+ * A ruler uses a single absolutely-positioned, semi-transparent DOM element to
+ * highlight the line of text underneath it.
+ */
 class Ruler {
     ELEMENTS_TO_HIGHLIGHT = new Set(['hg', 'img', 'svg', 'video']);
     PADDING = { x: 4, y: 2 };
@@ -8,7 +32,7 @@ class Ruler {
     isVisible = true;
 
     constructor() {
-        const PREFIX = 'ruler-ff-extension-';
+        const PREFIX = '--reading-ruler-';
         const RULER_ID = PREFIX + 'ruler';
 
         this.element = document.getElementById(RULER_ID)
@@ -74,6 +98,7 @@ class Ruler {
 
     // Private methods
 
+    /** Position and size the ruler to cover a specific rectangle. */
     positionAt(rect) {
         if (rectsAreEqual(rect, this.lastPosition)) {
             return;
@@ -87,37 +112,42 @@ class Ruler {
         this.lastPosition = rect;
     }
 
+    /**
+     * Gets the bounds of the DOM element to highlight at a given mouse
+     * coordinate.  Returns null if the element at that location shouldn't be
+     * highlighted.
+     */
     boundsAroundPoint(x, y) {
+        // Find the DOM element at the given coordinate.
         const caretInfo = caretInfoFromPoint(x, y);
         if (!caretInfo || !caretInfo.node || !rangeContainsOrIsNear(y, caretInfo.rect.top, caretInfo.rect.bottom, 1)) {
             return null;
         }
 
-        const rowRect = this.textRowBoundsAround(x, y);
+        // Get the shape of the DOM element.
+        const element = document.elementFromPoint(x, y);
+        const elementRect = element.getBoundingClientRect();
 
+        // Position and size the ruler to highlight the DOM element.
         switch (caretInfo.node.nodeType) {
-            case 1: // element
+            case 1: // A non-text highlight-worthy element
+                // Highlight the entire element.
                 const element = caretInfo.node;
                 if (this.ELEMENTS_TO_HIGHLIGHT.has(element.nodeName.toLowerCase())) {
-                    return rowRect;
+                    return elementRect;
                 } else {
                     return null;
                 }
             case 3: // text
+                // Highlight just the row under the mouse, not the entire
+                // paragraph.
                 return {
-                    x: rowRect.x,
+                    x: elementRect.x,
                     y: caretInfo.rect.y,
-                    width: rowRect.width,
+                    width: elementRect.width,
                     height: caretInfo.rect.height
                 };
             default: return null;
         }
-    }
-
-    textRowBoundsAround(x, y) {
-        const element = document.elementFromPoint(x, y);
-        const elementRect = element.getBoundingClientRect();
-
-        return elementRect;
     }
 }
