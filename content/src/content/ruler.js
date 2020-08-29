@@ -23,17 +23,14 @@
  * highlight the line of text underneath it.
  */
 class Ruler {
-    ELEMENTS_TO_HIGHLIGHT = new Set(['hg', 'img', 'svg', 'video']);
-    PADDING = { x: 4, y: 2 };
-
-    enabled = true;
-    element = null;
-    lastPosition = null;
-    isVisible = true;
-
     constructor() {
         const PREFIX = '--reading-ruler-';
         const RULER_ID = PREFIX + 'ruler';
+
+        this.enabled = true;
+        this.element = null;
+        this.lastPosition = null;
+        this.isVisible = true;
 
         this.element = document.getElementById(RULER_ID)
         if (!this.element) {
@@ -92,7 +89,7 @@ class Ruler {
         this.show();
 
         // Position the ruler.
-        inflateRect(bounds, this.PADDING.x, this.PADDING.y);
+        inflateRect(bounds, Ruler.PADDING.x, Ruler.PADDING.y);
         this.positionAt(bounds);
     }
 
@@ -133,7 +130,7 @@ class Ruler {
             case 1: // A non-text highlight-worthy element
                 // Highlight the entire element.
                 const element = caretInfo.node;
-                if (this.ELEMENTS_TO_HIGHLIGHT.has(element.nodeName.toLowerCase())) {
+                if (Ruler.ELEMENTS_TO_HIGHLIGHT.has(element.nodeName.toLowerCase())) {
                     return elementRect;
                 } else {
                     return null;
@@ -151,3 +148,6 @@ class Ruler {
         }
     }
 }
+
+Ruler.ELEMENTS_TO_HIGHLIGHT = new Set(['hg', 'img', 'svg', 'video']);
+Ruler.PADDING = { x: 4, y: 2 };
