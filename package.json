@@ -1,6 +1,6 @@
 {
   "name": "reading-ruler",
-  "version": "1.1",
+  "version": "1.2",
   "description": "A browser extension to highlight the line of text you are reading.",
   "main": "main.js",
   "repository": "git@github.com:orentrutner/reading-ruler.git",
