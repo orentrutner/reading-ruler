@@ -3,6 +3,10 @@
   "name": "Reading Ruler",
   "version": "1.1",
   "description": "Highlights the line of text you are reading.",
+  "developer": {
+    "name": "Oren Trutner",
+    "url": "https://github.com/orentrutner/reading-ruler"
+  },
 
   "permissions": [ "storage", "tabs" ],
 
@@ -25,7 +29,7 @@
 
   "background": {
     "scripts": [
-      "node_modules/webextension-polyfill/dist/browser-polyfill.min.js",
+      "src/polyfills/browser-polyfill.min.js",
       "src/common/extension.js",
       "src/common/options.js",
       "src/background/background.js"
@@ -36,7 +40,7 @@
     "matches": ["http://*/*", "https://*/*"],
     "css": ["css/main.css"],
     "js": [
-      "node_modules/webextension-polyfill/dist/browser-polyfill.min.js",
+      "src/polyfills/browser-polyfill.min.js",
       "src/content/range.js",
       "src/content/rect.js",
       "src/content/polyfills.js",

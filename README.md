@@ -3,3 +3,15 @@ Reading Ruler highlights the line of text you are currently reading.  Move the
 mouse around to highlight lines.
 
 ![Ruler example](./doc/images/ruler-demo-1.gif)
+
+# Building
+Before running locally:
+```
+yarn
+yarn polyfills
+```
+
+Before publishing:
+```
+yarn build
+```
