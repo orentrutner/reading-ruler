@@ -43,6 +43,15 @@ class Ruler {
 
     // Public methods
 
+    /** Enables or disables the ruler, based on the given input. */
+    enableIf(enable) {
+        if (enable) {
+            this.enable();
+        } else {
+            this.disable();
+        }
+    }
+
     /** Enables the ruler.  It will stay enabled until explicitly disabled. */
     enable() {
         this.enabled = true;
@@ -69,6 +78,11 @@ class Ruler {
             this.element.style.opacity = 0;
             this.isVisible = false;
         }
+    }
+
+    /**Sets the ruler's color. */
+    setColor(color) {
+        this.element.style.backgroundColor = color;
     }
 
     /** Position and show the ruler on the text row around a mouse coordinate. */

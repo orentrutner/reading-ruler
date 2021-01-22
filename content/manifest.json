@@ -30,6 +30,7 @@
   "background": {
     "scripts": [
       "src/polyfills/browser-polyfill.min.js",
+      "src/common/colors.js",
       "src/common/extension.js",
       "src/common/options.js",
       "src/background/background.js"

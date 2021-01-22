@@ -34,15 +34,14 @@
     // React to messages from the background and popup scripts.
     browser.runtime.onMessage.addListener(message => {
         switch (message.command) {
-            case 'enable':
-                ruler.enable();
-                break;
-            case 'disable':
-                ruler.disable();
+            case 'options':
+                ruler.enableIf(message.enabled);
+                ruler.setColor(message.color);
                 break;
             default:
                 break;
         }
+
     });
 
     // Handle mouse-move events.

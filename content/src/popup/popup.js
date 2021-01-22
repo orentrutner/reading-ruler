@@ -28,6 +28,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     const options = new Options(tab.url);
     await options.read();
 
+    // Initialize and react to changes on the color chooser.
+    const colorButtons = document.getElementById('colorButtons');
+    for (let color of COLORS) {
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'color';
+        input.id = 'color' + color.name;
+        input.value = color.name;
+        input.checked = color.name === options.colorName;
+        colorButtons.appendChild(input);
+
+        const label = document.createElement('label');
+        label.htmlFor = input.id;
+        label.style = `background-color: ${color.hex};`;
+        label.textContent = ' ';
+        label.addEventListener('click', async e => {
+            options.colorName = e.target.previousSibling.value;
+            await options.write();
+        });
+        colorButtons.appendChild(label);
+    }
+
     // Initialize and react to changes on the enable-for-domain checkbox.
     const enableForDomainCheckbox = document.getElementById('enableForDomain');
     enableForDomainCheckbox.checked = options.domainEnabled;
