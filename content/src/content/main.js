@@ -37,6 +37,7 @@
             case 'options':
                 ruler.enableIf(message.enabled);
                 ruler.setColor(message.color);
+                ruler.setOpacity(message.opacity);
                 break;
             default:
                 break;

@@ -50,6 +50,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         colorButtons.appendChild(label);
     }
 
+    // Initialize and react to changes on the opacity slider.
+    const opacitySlider = document.getElementById('opacitySlider');
+    opacitySlider.value = options.opacity;
+    opacitySlider.addEventListener('input', async e => {
+        options.opacity = opacitySlider.value;
+        await options.write();
+    });
+
     // Initialize and react to changes on the enable-for-domain checkbox.
     const enableForDomainCheckbox = document.getElementById('enableForDomain');
     enableForDomainCheckbox.checked = options.domainEnabled;

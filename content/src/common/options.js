@@ -34,6 +34,7 @@ class Options {
         this.domainEnabled = !!await this.readValue(this.host, true);
         this.pageEnabled = !!await this.readValue(this.url, true);
         this.colorName = await this.readValue('colorName', COLORS[0].name);
+        this.opacity = await this.readValue('opacity', 0.2);
 
         // Broadcast the option values throughout the extension.
         await this.broadcast();
@@ -44,6 +45,7 @@ class Options {
         await this.writeValue(this.host, this.domainEnabled);
         await this.writeValue(this.url, this.pageEnabled);
         await this.writeValue('colorName', this.colorName);
+        await this.writeValue('opacity', this.opacity);
 
         // Broadcast the option values throughout the extension.
         await this.broadcast();
@@ -54,7 +56,8 @@ class Options {
         const message = {
             command: 'options',
             enabled: this.enabled,
-            color: COLORS.find(color => color.name === this.colorName).hex
+            color: COLORS.find(color => color.name === this.colorName).hex,
+            opacity: this.opacity
         };
 
         // Send the new values to the background and popup scripts.

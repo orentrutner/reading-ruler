@@ -28,6 +28,7 @@ class Ruler {
         const RULER_ID = PREFIX + 'ruler';
 
         this.enabled = true;
+        this.opacity = 0.2;
         this.element = null;
         this.lastPosition = null;
         this.isVisible = true;
@@ -67,7 +68,7 @@ class Ruler {
     /** Show the ruler. */
     show() {
         if (!this.isVisible) {
-            this.element.style.opacity = 0.2;
+            this.element.style.opacity = this.opacity;
             this.isVisible = true;
         }
     }
@@ -80,9 +81,17 @@ class Ruler {
         }
     }
 
-    /**Sets the ruler's color. */
+    /** Sets the ruler's color. */
     setColor(color) {
         this.element.style.backgroundColor = color;
+    }
+
+    /** Sets the ruler's opacity. */
+    setOpacity(newOpacity) {
+        this.opacity = newOpacity;
+        if (this.isVisible) {
+            this.element.style.opacity = newOpacity;
+        }
     }
 
     /** Position and show the ruler on the text row around a mouse coordinate. */

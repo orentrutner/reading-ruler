@@ -42,25 +42,24 @@ h3 {
 }
 
 h4 {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
+    margin: 12px 0 8px 0;
 }
 
 .color-radio {
-    margin: 8px 0;
+    margin: 0;
 }
 
 .color-radio input[type="radio"] {
-    opacity: 0;
-    position: fixed;
-    width: 0;
+    display: none;
 }
 
 .color-radio label {
     display: inline-block;
     min-width: 30px;
     min-height: 30px;
-    margin: 4px;
+    margin: 0 8px 0 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: white;
     border: none;
@@ -91,4 +90,8 @@ h4 {
 .color-radio input[type="radio"]:checked + label::after {
     width: 24px;
     height: 24px;
+}
+
+#opacitySlider {
+    width: 180px;
 }
