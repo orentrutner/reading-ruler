@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "cpx": "^1.5.0",
-    "web-ext": "^5.0.0",
-    "webextension-polyfill": "^0.6.0"
+    "web-ext": "^6.1.0",
+    "webextension-polyfill": "^0.8.0"
   }
 }
