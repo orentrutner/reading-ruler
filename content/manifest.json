@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Reading Ruler",
-  "version": "1.2",
+  "version": "3",
   "description": "Highlights the row of text you are reading.",
   "developer": {
     "name": "Oren Trutner",
