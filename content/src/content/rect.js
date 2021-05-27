@@ -17,6 +17,12 @@
  * along with Reading Ruler.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/*
+ * Rectangle functions.  Should work on DOMRect values, e.g. as returned from
+ * Element.getBoundingClientRect.  Note that mutating functions might not work
+ * on DOMRectReadOnly properties.
+ */
+
 /** Checks if a rectangle has zero size. */
 function rectIsEmpty(rect) {
     return rect.width <= 0 || rect.height <= 0;

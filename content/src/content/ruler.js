@@ -18,9 +18,9 @@
  */
 
 /**
- * Represents a "ruler" that highlights a line of text.
+ * Represents a "ruler" that highlights a row of text.
  * A ruler uses a single absolutely-positioned, semi-transparent DOM element to
- * highlight the line of text underneath it.
+ * highlight the row of text underneath it.
  */
 class Ruler {
     constructor() {
@@ -139,13 +139,13 @@ class Ruler {
      */
     boundsAroundPoint(x, y) {
         // Find the DOM element at the given coordinate.
-        const caretInfo = caretInfoFromPoint(x, y);
-        if (!caretInfo || !caretInfo.node || !rangeContainsOrIsNear(y, caretInfo.rect.top, caretInfo.rect.bottom, 1)) {
+        const caretInfo = caretAtOrNear(x, y, Ruler.SAMPLE_COUNT);
+        if (!caretInfo || !caretInfo.node) {
             return null;
         }
 
         // Get the shape of the DOM element.
-        const element = document.elementFromPoint(x, y);
+        const element = this.blockElementAt(caretInfo.rect.x, caretInfo.rect.y);
         const elementRect = element.getBoundingClientRect();
 
         // Position and size the ruler to highlight the DOM element.
@@ -170,7 +170,32 @@ class Ruler {
             default: return null;
         }
     }
+
+    /** Gets the block element around the given coordinates. */
+    blockElementAt(x, y) {
+        return this.ancestorBlockElement(document.elementFromPoint(x, y), 3);
+    }
+
+    /**
+     * Gets the nearest ancestor block element of a given element.
+     * Scans up to the given number of levels.
+     * Returns null if the root of the DOM tree is reached, or the last ancestor
+     * looked at if no block ancestor is found within the limit.
+     */
+    ancestorBlockElement(element, levels) {
+        for (var level = 0;
+            level < levels, element.parentElement;
+            ++level, element = element.parentElement) {
+
+            if (window.getComputedStyle(element).display === 'block') {
+                return element;
+            }
+        }
+
+        return element;
+    }
 }
 
+Ruler.SAMPLE_COUNT = 5;
 Ruler.ELEMENTS_TO_HIGHLIGHT = new Set(['hg', 'img', 'svg', 'video']);
 Ruler.PADDING = { x: 4, y: 2 };

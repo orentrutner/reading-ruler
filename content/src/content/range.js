@@ -17,13 +17,33 @@
  * along with Reading Ruler.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+/*
+ * Range functions.  A range represents a 1-dimensional interval defined by
+ * low and high values (inclusive.)
+ */
+
 /** Checks if a number is within a range (inclusive.) */
 function rangeContains(value, low, high) {
     return value >= low && value <= high;
+}
+
+/** Gets the nearest value inside a range to a given value. */
+function rangeClip(value, low, high) {
+    return (value < low ? low : (value > high ? high : value));
 }
 
 /** Checks if a number is within a range or outside but near its boundaries. */
 function rangeContainsOrIsNear(value, low, high, fraction) {
     const buffer = (high - low) * fraction;
     return rangeContains(value, low - buffer, high + buffer);
+}
+
+/**
+ * Gets the distance from a value to the nearest end of a range.
+ * Returns 0 if the value is inside the range.
+ */
+function rangeDistanceToValue(value, low, high) {
+    return (rangeContains(value, low, high)
+        ? 0
+        : Math.min(Math.abs(value - low), Math.abs(value - high)));
 }

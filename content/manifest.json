@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Reading Ruler",
   "version": "1.2",
-  "description": "Highlights the line of text you are reading.",
+  "description": "Highlights the row of text you are reading.",
   "developer": {
     "name": "Oren Trutner",
     "url": "https://github.com/orentrutner/reading-ruler"
@@ -45,6 +45,7 @@
       "src/content/range.js",
       "src/content/rect.js",
       "src/content/polyfills.js",
+      "src/content/caret.js",
       "src/content/ruler.js",
       "src/content/main.js"
     ],

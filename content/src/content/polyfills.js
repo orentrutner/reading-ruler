@@ -18,20 +18,24 @@
  */
 
 /** Gets the DOM node at a page coordinate and its bounding rectangle. */
-function caretInfoFromPoint(x, y) {
+function caretFromPoint(x, y) {
     if (document.caretPositionFromPoint) {
         const position = document.caretPositionFromPoint(x, y);
         return {
             node: position.offsetNode,
+            offset: position.offset,
             rect: position.getClientRect()
         };
     } else if (document.caretRangeFromPoint) {
         const range = document.caretRangeFromPoint(x, y);
-        return range
+        return (range
             ? {
                 node: range.commonAncestorContainer,
+                offset: range.startOffset,
                 rect: range.getBoundingClientRect()
               }
-            : null;
+            : null);
+    } else {
+        return null;
     }
 }
