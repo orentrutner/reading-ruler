@@ -18,7 +18,7 @@
  */
 
 /**
- * This is the entry point for the extension's "content" script, i.e. the script
+ * This is the entry point for the add-on's "content" script, i.e. the script
  * that executes within every web page that the browser loads.
  *
  * It creates a single ruler and sets up event handlers to highlight the row

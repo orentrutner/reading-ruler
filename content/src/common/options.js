@@ -24,7 +24,7 @@ class Options {
         this.host = new URL(url).host;
     }
 
-    /** Should the extension be enabled for the page? */
+    /** Should the add-on be enabled for the page? */
     get enabled() {
         return this.domainEnabled && this.pageEnabled;
     }
@@ -36,7 +36,7 @@ class Options {
         this.colorName = await this.readValue('colorName', COLORS[0].name);
         this.opacity = await this.readValue('opacity', 0.2);
 
-        // Broadcast the option values throughout the extension.
+        // Broadcast the option values throughout the add-on.
         await this.broadcast();
     }
 
@@ -47,11 +47,11 @@ class Options {
         await this.writeValue('colorName', this.colorName);
         await this.writeValue('opacity', this.opacity);
 
-        // Broadcast the option values throughout the extension.
+        // Broadcast the option values throughout the add-on.
         await this.broadcast();
     }
 
-    /** Broadcasts the option values throughout the extension. */
+    /** Broadcasts the option values throughout the add-on. */
     async broadcast() {
         const message = {
             command: 'options',
