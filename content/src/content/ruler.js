@@ -145,7 +145,7 @@ class Ruler {
         }
 
         // Get the shape of the DOM element.
-        const element = this.blockElementAt(caretInfo.rect.x, caretInfo.rect.y);
+        const element = this.ancestorBlockElement(caretInfo.node.parentElement, 3);
         const elementRect = element.getBoundingClientRect();
 
         // Position and size the ruler to highlight the DOM element.
@@ -171,11 +171,6 @@ class Ruler {
         }
     }
 
-    /** Gets the block element around the given coordinates. */
-    blockElementAt(x, y) {
-        return this.ancestorBlockElement(document.elementFromPoint(x, y), 3);
-    }
-
     /**
      * Gets the nearest ancestor block element of a given element.
      * Scans up to the given number of levels.
@@ -184,7 +179,7 @@ class Ruler {
      */
     ancestorBlockElement(element, levels) {
         for (var level = 0;
-            level < levels, element.parentElement;
+            level < levels && element;
             ++level, element = element.parentElement) {
 
             if (window.getComputedStyle(element).display === 'block') {
