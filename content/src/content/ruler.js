@@ -30,6 +30,7 @@ class Ruler {
         this.enabled = true;
         this.opacity = 0.2;
         this.element = null;
+        this.lastRowBounds = null;
         this.lastPosition = null;
         this.isVisible = true;
 
@@ -94,6 +95,19 @@ class Ruler {
         }
     }
 
+    /**
+     * Position and show the ruler on the text row around a mouse coordinate.
+     * As a performance optimization, only makes a change if the coordinate
+     * exited the previously highlighted row.
+     */
+    positionAroundIfRowExited(x, y) {
+        if (!this.enabled || (this.lastRowBounds && rectContains(this.lastRowBounds, x, y))) {
+            return;
+        }
+
+        this.positionAround(x, y)
+    }
+
     /** Position and show the ruler on the text row around a mouse coordinate. */
     positionAround(x, y) {
         // Do nothing if disabled.
@@ -102,8 +116,8 @@ class Ruler {
         }
 
         // Find the row bounds.
-        const bounds = this.boundsAroundPoint(x, y);
-        if (!bounds) {
+        const rowBounds = this.lastRowBounds = this.boundsAroundPoint(x, y);
+        if (!rowBounds) {
             this.hide();
             return;
         }
@@ -112,8 +126,8 @@ class Ruler {
         this.show();
 
         // Position the ruler.
-        inflateRect(bounds, Ruler.PADDING.x, Ruler.PADDING.y);
-        this.positionAt(bounds);
+        inflateRect(rowBounds, Ruler.PADDING.x, Ruler.PADDING.y);
+        this.positionAt(rowBounds);
     }
 
     // Private methods

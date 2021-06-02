@@ -53,7 +53,7 @@
         mousePosition.y = e.y;
 
         // Position the ruler to match the mouse position.
-        ruler.positionAround(mousePosition.x, mousePosition.y);
+        ruler.positionAroundIfRowExited(mousePosition.x, mousePosition.y);
 
         // Invoke any previous mouse move handler.
         if (originalOnMouseMove) {

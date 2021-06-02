@@ -38,6 +38,11 @@ function rectsAreEqual(rect1, rect2) {
             && rect1.height === rect2.height));
 }
 
+/** Checks if a rectangle contains a point. */
+function rectContains(rect, x, y) {
+    return x >= rect.x && x <= rect.x + rect.width && y >= rect.y && y <= rect.y + rect.height;
+}
+
 /** Increases the size of a rectangle, in place, by a given amount. */
 function inflateRect(rect, x, y) {
     rect.x -= x;
