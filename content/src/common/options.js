@@ -33,6 +33,7 @@ class Options {
     async read() {
         this.domainEnabled = !!await this.readValue(this.host, true);
         this.pageEnabled = !!await this.readValue(this.url, true);
+        this.appearance = await this.readValue('appearance', 'ruler');
         this.colorName = await this.readValue('colorName', COLORS[0].name);
         this.opacity = await this.readValue('opacity', 0.2);
 
@@ -44,6 +45,7 @@ class Options {
     async write() {
         await this.writeValue(this.host, this.domainEnabled);
         await this.writeValue(this.url, this.pageEnabled);
+        await this.writeValue('appearance', this.appearance);
         await this.writeValue('colorName', this.colorName);
         await this.writeValue('opacity', this.opacity);
 
@@ -56,6 +58,7 @@ class Options {
         const message = {
             command: 'options',
             enabled: this.enabled,
+            appearance: this.appearance,
             color: COLORS.find(color => color.name === this.colorName).hex,
             opacity: this.opacity
         };

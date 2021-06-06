@@ -21,20 +21,22 @@
 function caretFromPoint(x, y) {
     if (document.caretPositionFromPoint) {
         const position = document.caretPositionFromPoint(x, y);
-        return (position
+        const rect = position?.getClientRect();
+        return ((position && rect)
             ? {
                 node: position.offsetNode,
                 offset: position.offset,
-                rect: position.getClientRect()
+                rect: rect
               }
             : null);
     } else if (document.caretRangeFromPoint) {
         const range = document.caretRangeFromPoint(x, y);
-        return (range
+        const rect = range?.getBoundingClientRect();
+        return ((range && rect)
             ? {
                 node: range.commonAncestorContainer,
                 offset: range.startOffset,
-                rect: range.getBoundingClientRect()
+                rect: rect
               }
             : null);
     } else {

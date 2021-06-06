@@ -46,6 +46,8 @@
       "src/content/rect.js",
       "src/content/polyfills.js",
       "src/content/caret.js",
+      "src/content/highlight-visualizer.js",
+      "src/content/negative-visualizer.js",
       "src/content/ruler.js",
       "src/content/main.js"
     ],

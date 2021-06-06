@@ -17,9 +17,7 @@
  * along with Reading Ruler.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-.--reading-ruler-ruler {
-    background-color: steelblue;
-    border-radius: 4px;
+.--reading-ruler-ruler, .--reading-ruler-top, .--reading-ruler-bottom {
     opacity: 0.2;
 
     position: fixed;
@@ -27,4 +25,13 @@
 
     pointer-events: none;
     transition: all 0.1s;
+}
+
+.--reading-ruler-ruler {
+    background-color: steelblue;
+    border-radius: 4px;
+}
+
+.--reading-ruler-top, .--reading-ruler-bottom {
+    background-color: black;
 }

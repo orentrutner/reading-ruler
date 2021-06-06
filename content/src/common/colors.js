@@ -18,9 +18,10 @@
  */
 
 const COLORS = [
-    { name: 'blue', hex: '#4682b4'},
-    { name: 'lime', hex: '#99dd00'},
-    { name: 'yellow', hex: '#eebb00'},
-    { name: 'orange', hex: '#dd4400'},
-    { name: 'pink', hex: '#ff0066'},
+    { name: 'blue', hex: '#4682b4', appearance: 'ruler', label: 'Blue', icon: null },
+    { name: 'lime', hex: '#99dd00', appearance: 'ruler', label: 'Lime', icon: null },
+    { name: 'yellow', hex: '#eebb00', appearance: 'ruler', label: 'Yellow', icon: null },
+    { name: 'orange', hex: '#dd4400', appearance: 'ruler', label: 'Orange', icon: null },
+    { name: 'pink', hex: '#ff0066', appearance: 'ruler', label: 'Pink', icon: null },
+    { name: 'negative', hex: '#ffffff', appearance: 'negative', label: 'Negative', icon: 'negative.svg' },
 ];

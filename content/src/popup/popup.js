@@ -42,9 +42,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         const label = document.createElement('label');
         label.htmlFor = input.id;
         label.style = `background-color: ${color.hex};`;
-        label.textContent = ' ';
+        label.innerHTML = color.icon ? `<img src="${color.icon}" width="30" height="30">` : ' ';
         label.addEventListener('click', async e => {
             options.colorName = e.target.previousSibling.value;
+            options.appearance = color.appearance;
             await options.write();
         });
         colorButtons.appendChild(label);

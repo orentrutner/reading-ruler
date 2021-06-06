@@ -36,6 +36,7 @@
         switch (message.command) {
             case 'options':
                 ruler.enableIf(message.enabled);
+                ruler.setAppearance(message.appearance);
                 ruler.setColor(message.color);
                 ruler.setOpacity(message.opacity);
                 break;
@@ -45,33 +46,22 @@
 
     });
 
-    // Handle mouse-move events.
-    const originalOnMouseMove = document.onmousemove;
-    document.onmousemove = function(e) {
+    // Reposition the ruler when the mouse moves.
+    document.addEventListener('mousemove', function(e) {
         // Keep track of the mouse position.
         mousePosition.x = e.x;
         mousePosition.y = e.y;
 
         // Position the ruler to match the mouse position.
         ruler.positionAroundIfRowExited(mousePosition.x, mousePosition.y);
+    });
 
-        // Invoke any previous mouse move handler.
-        if (originalOnMouseMove) {
-            try { originalOnMouseMove(e); }
-            catch(exception) { /* ignore; likely dead reference */ }
-        }
-    }
-
-    // Handle scroll events.
-    const originalOnScroll = document.onscroll;
-    document.onscroll = function(e) {
-        // Position the ruler to match the mouse position.
+    // Reposition the ruler to match the mouse when the document is scrolled.
+    document.addEventListener('scroll', function(e) {
         ruler.positionAround(mousePosition.x, mousePosition.y);
+    });
 
-        // Invoke any previous scroll handler.
-        if (originalOnScroll) {
-            try { originalOnScroll(e); }
-            catch(exception) { /* ignore; likely dead reference */ }
-        }
-    }
+    // Hide or show the ruler when the mouse exits or reenters the window.
+    window.addEventListener('mouseout', e => ruler.hide());
+    window.addEventListener('mouseover', e => ruler.show());
 })();

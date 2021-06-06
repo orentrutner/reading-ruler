@@ -24,23 +24,11 @@
  */
 class Ruler {
     constructor() {
-        const PREFIX = '--reading-ruler-';
-        const RULER_ID = PREFIX + 'ruler';
-
         this.enabled = true;
-        this.opacity = 0.2;
-        this.element = null;
-        this.lastRowBounds = null;
-        this.lastPosition = null;
-        this.isVisible = true;
-
-        this.element = document.getElementById(RULER_ID)
-        if (!this.element) {
-            this.element = document.createElement('div');
-            this.element.id = RULER_ID;
-            this.element.className = RULER_ID;
-            document.body.appendChild(this.element);
-        }
+        this.visualizer = new NegativeVisualizer();
+        this.latestRowBounds = null;
+        this.latestPosition = null;
+        this.options = {};
     }
 
     // Public methods
@@ -68,31 +56,54 @@ class Ruler {
 
     /** Show the ruler. */
     show() {
-        if (!this.isVisible) {
-            this.element.style.opacity = this.opacity;
-            this.isVisible = true;
-        }
+        this.visualizer.show();
     }
 
     /** Hide the ruler. */
     hide() {
-        if (this.isVisible) {
-            this.element.style.opacity = 0;
-            this.isVisible = false;
+        this.visualizer.hide();
+    }
+
+    /** Temporarily hide the ruler. */
+    stash() {
+        this.visualizer.stash();
+        this.latestPosition = null;
+    }
+
+    /** Sets the ruler's appearance. */
+    setAppearance(newAppearance) {
+        if (this.appearance === newAppearance) {
+            return;
         }
+
+        // Keep the new appearance.
+        this.appearance = newAppearance;
+
+        // Hide the old visualizer.
+        if (this.visualizer) {
+            this.visualizer.hide();
+        }
+
+        // Create and initialize a new visualizer to match the new appearance.
+        this.visualizer = Ruler.VISUALIZER_BY_APPEARANCE[newAppearance] || Ruler.VISUALIZER_BY_APPEARANCE["ruler"];
+        this.visualizer.setColor(this.options.color);
+        this.visualizer.setOpacity(this.options.opacity);
+
+        // Show and position the new visualizer.
+        this.visualizer.show();
+        this.positionAtLatest();
     }
 
     /** Sets the ruler's color. */
-    setColor(color) {
-        this.element.style.backgroundColor = color;
+    setColor(newColor) {
+        this.options.color = newColor;
+        this.visualizer.setColor(newColor);
     }
 
     /** Sets the ruler's opacity. */
     setOpacity(newOpacity) {
-        this.opacity = newOpacity;
-        if (this.isVisible) {
-            this.element.style.opacity = newOpacity;
-        }
+        this.options.opacity = newOpacity;
+        this.visualizer.setOpacity(newOpacity);
     }
 
     /**
@@ -101,7 +112,7 @@ class Ruler {
      * exited the previously highlighted row.
      */
     positionAroundIfRowExited(x, y) {
-        if (!this.enabled || (this.lastRowBounds && rectContains(this.lastRowBounds, x, y))) {
+        if (!this.enabled || (this.latestRowBounds && rectContains(this.latestRowBounds, x, y))) {
             return;
         }
 
@@ -116,9 +127,9 @@ class Ruler {
         }
 
         // Find the row bounds.
-        const rowBounds = this.lastRowBounds = this.boundsAroundPoint(x, y);
+        const rowBounds = this.latestRowBounds = this.boundsAroundPoint(x, y);
         if (!rowBounds) {
-            this.hide();
+            this.stash();
             return;
         }
 
@@ -132,18 +143,22 @@ class Ruler {
 
     // Private methods
 
+    /**
+     * Position the visualizer in the latest position it was in.
+     * This is useful after changing visualizers.
+     */
+    positionAtLatest() {
+        if (this.latestPosition) {
+            this.visualizer.positionAt(this.latestPosition);
+        }
+    }
+
     /** Position and size the ruler to cover a specific rectangle. */
     positionAt(rect) {
-        if (rectsAreEqual(rect, this.lastPosition)) {
-            return;
+        if (!rectsAreEqual(rect, this.latestPosition)) {
+            this.visualizer.positionAt(rect);
+            this.latestPosition = rect;
         }
-
-        this.element.style.left = Math.round(rect.x) + 'px';
-        this.element.style.top = Math.round(rect.y) + 'px';
-        this.element.style.width = Math.round(rect.width) + 'px';
-        this.element.style.height = Math.round(rect.height) + 'px';
-
-        this.lastPosition = rect;
     }
 
     /**
@@ -208,3 +223,7 @@ class Ruler {
 Ruler.SAMPLE_COUNT = 5;
 Ruler.ELEMENTS_TO_HIGHLIGHT = new Set(['hg', 'img', 'svg', 'video']);
 Ruler.PADDING = { x: 4, y: 2 };
+Ruler.VISUALIZER_BY_APPEARANCE = {
+    "ruler": new HighlightVisualizer(),
+    "negative": new NegativeVisualizer()
+};

@@ -74,24 +74,26 @@ h4 {
     opacity: 0.5;
 }
 
+.color-radio label img {
+    position: absolute;
+}
+
 .color-radio input[type="radio"]:hover + label {
+    width: 32px;
+    height: 32px;
+    margin: 0 6px 0 0;
+    transform: translate(-1px, 1px);
     border: 1px solid black;
 }
 
-.color-radio input[type="radio"]:hover + label::after {
-    width: 28px;
-    height: 28px;
-}
-
 .color-radio input[type="radio"]:checked + label {
+    width: 36px;
+    height: 36px;
+    margin: 0 2px 0 0;
+    transform: translate(-3px, 3px);
     border: 3px solid black;
 }
 
-.color-radio input[type="radio"]:checked + label::after {
-    width: 24px;
-    height: 24px;
-}
-
 #opacitySlider {
-    width: 180px;
+    width: 220px;
 }
