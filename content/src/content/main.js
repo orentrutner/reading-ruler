@@ -61,7 +61,7 @@
         ruler.positionAround(mousePosition.x, mousePosition.y);
     });
 
-    // Hide or show the ruler when the mouse exits or reenters the window.
-    window.addEventListener('mouseout', e => ruler.hide());
-    window.addEventListener('mouseover', e => ruler.show());
+    // Deactivate the ruler when the mouse is outside the window.
+    window.addEventListener('mouseout', e => ruler.deactivate());
+    window.addEventListener('mouseover', e => ruler.activate());
 })();

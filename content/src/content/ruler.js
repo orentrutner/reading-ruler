@@ -24,8 +24,9 @@
  */
 class Ruler {
     constructor() {
-        this.enabled = true;
-        this.visualizer = new NegativeVisualizer();
+        this.enabled = true;    // enabled unless the user turned it off
+        this.active = true;     // temporarily inactive when the mouse exits the window
+        this.visualizer = new HighlightVisualizer();
         this.latestRowBounds = null;
         this.latestPosition = null;
         this.options = {};
@@ -54,20 +55,21 @@ class Ruler {
         this.hide();
     }
 
-    /** Show the ruler. */
-    show() {
-        this.visualizer.show();
+    /** Activates the ruler, if it was temporarily deactivated. */
+    activate() {
+        this.active = true;
+        this.show();
     }
 
-    /** Hide the ruler. */
-    hide() {
-        this.visualizer.hide();
+    /** Temporarily deactivates the ruler. */
+    deactivate() {
+        this.inactive = false;
+        this.hide();
     }
 
-    /** Temporarily hide the ruler. */
-    stash() {
-        this.visualizer.stash();
-        this.latestPosition = null;
+    /** Checks if the ruler should be visible in its current state. */
+    isVisible() {
+        return this.enabled && this.active;
     }
 
     /** Sets the ruler's appearance. */
@@ -90,7 +92,7 @@ class Ruler {
         this.visualizer.setOpacity(this.options.opacity);
 
         // Show and position the new visualizer.
-        this.visualizer.show();
+        this.show();
         this.positionAtLatest();
     }
 
@@ -142,6 +144,24 @@ class Ruler {
     }
 
     // Private methods
+
+    /** Show the ruler. */
+    show() {
+        if (this.isVisible()) {
+            this.visualizer.show();
+        }
+    }
+
+    /** Hide the ruler. */
+    hide() {
+        this.visualizer.hide();
+    }
+
+    /** Temporarily hide the ruler. */
+    stash() {
+        this.visualizer.stash();
+        this.latestPosition = null;
+    }
 
     /**
      * Position the visualizer in the latest position it was in.

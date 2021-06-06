@@ -66,6 +66,8 @@ class NegativeVisualizer {
     stash() {
         this.topElement.style.opacity = this.opacity;
         this.bottomElement.style.opacity = this.opacity;
+        this.isVisible = false;
+
         if (this.lastPosition) {
             const y = this.lastPosition.y + this.lastPosition.height / 2;
             this.positionAt({
