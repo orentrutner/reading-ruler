@@ -34,6 +34,9 @@
     // React to messages from the background and popup scripts.
     browser.runtime.onMessage.addListener(message => {
         switch (message.command) {
+            case 'activate':
+                ruler.activate();
+                break;
             case 'options':
                 ruler.enableIf(message.enabled);
                 ruler.setAppearance(message.appearance);

@@ -74,4 +74,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         options.pageEnabled = e.target.checked;
         await options.write();
     });
+
+    // Activate the ruler when entering the popup.  This gives direct feedback
+    // to what option changes look like, and counters the deactivation of the
+    // ruler when the mouse exits the window to open the popup.
+    window.addEventListener('mouseover', e => broadcast('activate'));
 }, false);

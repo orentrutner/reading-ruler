@@ -55,25 +55,13 @@ class Options {
 
     /** Broadcasts the option values throughout the add-on. */
     async broadcast() {
-        const message = {
+        await broadcast({
             command: 'options',
             enabled: this.enabled,
             appearance: this.appearance,
             color: COLORS.find(color => color.name === this.colorName).hex,
             opacity: this.opacity
-        };
-
-        // Send the new values to the background and popup scripts.
-        try { await browser.runtime.sendMessage(message); }
-        catch (exception) { /* ignore any failures to receive */ }
-
-        // Send the new values to the current browser tab.
-        const tab = await getCurrentTab();
-        const tabId = tab && tab.id;
-        if (tabId != null) {
-            try { await browser.tabs.sendMessage(tabId, message); }
-            catch (exception) { /* ignore any failures to receive */ }
-        }
+        });
     }
 
     /** Reads a single value from local storage. */
