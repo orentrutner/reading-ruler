@@ -24,7 +24,7 @@
     z-index: 2147483647;
 
     pointer-events: none;
-    transition: all 0.1s, opacity 0.3s;
+    transition: all 0.1s, opacity 0.3s ease-in-out;
 }
 
 .--reading-ruler-ruler {

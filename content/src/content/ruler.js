@@ -129,16 +129,16 @@ class Ruler {
             return;
         }
 
-        // Make sure the ruler is visible.
-        this.show();
-        this.activate();
-
         // Find the row bounds.
         const rowBounds = this.latestRowBounds = this.boundsAroundPoint(x, y);
         if (!rowBounds) {
             this.stash();
             return;
         }
+
+        // Make sure the ruler is visible.
+        this.activate();
+        this.show();
 
         // Position the ruler.
         inflateRect(rowBounds, Ruler.PADDING.x, Ruler.PADDING.y);
