@@ -24,8 +24,9 @@
  */
 class Ruler {
     constructor() {
-        this.enabled = true;    // enabled unless the user turned it off
-        this.active = true;     // temporarily inactive when the mouse exits the window
+        this.enabled = false;   // enabled unless the user turned it off
+        this.active = false;    // temporarily inactive when the mouse exits the window
+        this.appearance = 'ruler';
         this.visualizer = new HighlightVisualizer();
         this.latestRowBounds = null;
         this.latestPosition = null;
@@ -63,7 +64,7 @@ class Ruler {
 
     /** Temporarily deactivates the ruler. */
     deactivate() {
-        this.inactive = false;
+        this.active = false;
         this.hide();
     }
 
@@ -128,15 +129,16 @@ class Ruler {
             return;
         }
 
+        // Make sure the ruler is visible.
+        this.show();
+        this.activate();
+
         // Find the row bounds.
         const rowBounds = this.latestRowBounds = this.boundsAroundPoint(x, y);
         if (!rowBounds) {
             this.stash();
             return;
         }
-
-        // Make sure the ruler is visible.
-        this.show();
 
         // Position the ruler.
         inflateRect(rowBounds, Ruler.PADDING.x, Ruler.PADDING.y);

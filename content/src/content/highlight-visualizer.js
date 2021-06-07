@@ -24,7 +24,7 @@ class HighlightVisualizer {
         const RULER_ID = PREFIX + 'ruler';
 
         this.opacity = 0.2;
-        this.isVisible = true;
+        this.isVisible = false;
 
         this.element = document.getElementById(RULER_ID)
         if (!this.element) {

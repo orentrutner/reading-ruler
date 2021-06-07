@@ -18,13 +18,13 @@
  */
 
 .--reading-ruler-ruler, .--reading-ruler-top, .--reading-ruler-bottom {
-    opacity: 0.2;
+    opacity: 0;
 
     position: fixed;
     z-index: 2147483647;
 
     pointer-events: none;
-    transition: all 0.1s;
+    transition: all 0.1s, opacity 0.3s;
 }
 
 .--reading-ruler-ruler {

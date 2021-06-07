@@ -25,7 +25,8 @@ class NegativeVisualizer {
         const BOTTOM_ID = PREFIX + 'bottom';
 
         this.opacity = 0.2;
-        this.isVisible = true;
+        this.overlayVisible = false;
+        this.rulerVisible = false;
 
         this.topElement = document.getElementById(TOP_ID)
         if (!this.topElement) {
@@ -44,21 +45,28 @@ class NegativeVisualizer {
         }
     }
 
+    /** Checks if the ruler should be visible in its current state. */
+    isVisible() {
+        return this.overlayVisible || this.rulerVisible;
+    }
+
     /** Shows the ruler. */
     show() {
-        if (!this.isVisible) {
+        if (!this.overlayVisible) {
             this.topElement.style.opacity = this.opacity;
             this.bottomElement.style.opacity = this.opacity;
-            this.isVisible = true;
+
+            this.overlayVisible = true;
         }
     }
 
     /** Hides the ruler. */
     hide() {
-        if (this.isVisible) {
+        if (this.overlayVisible) {
             this.topElement.style.opacity = 0;
             this.bottomElement.style.opacity = 0;
-            this.isVisible = false;
+
+            this.overlayVisible = false;
         }
     }
 
@@ -66,7 +74,7 @@ class NegativeVisualizer {
     stash() {
         this.topElement.style.opacity = this.opacity;
         this.bottomElement.style.opacity = this.opacity;
-        this.isVisible = false;
+        this.rulerVisible = false;
 
         if (this.lastPosition) {
             const y = this.lastPosition.y + this.lastPosition.height / 2;
@@ -87,7 +95,7 @@ class NegativeVisualizer {
     /** Sets the ruler's opacity. */
     setOpacity(newOpacity) {
         this.opacity = newOpacity;
-        if (this.isVisible) {
+        if (this.overlayVisible) {
             this.topElement.style.opacity = newOpacity;
             this.bottomElement.style.opacity = newOpacity;
         }
@@ -107,6 +115,7 @@ class NegativeVisualizer {
         this.bottomElement.style.width = window.innerWidth + 'px';
         this.bottomElement.style.height = Math.round(window.innerHeight - inflatedRect.y - inflatedRect.height) + 'px';
 
+        this.rulerVisible = true;
         this.lastPosition = rect;
     }
 }

@@ -37,6 +37,9 @@
             case 'activate':
                 ruler.activate();
                 break;
+            case 'deactivate':
+                ruler.deactivate();
+                break;
             case 'options':
                 ruler.enableIf(message.enabled);
                 ruler.setAppearance(message.appearance);
@@ -67,4 +70,5 @@
     // Deactivate the ruler when the mouse is outside the window.
     window.addEventListener('mouseout', e => ruler.deactivate());
     window.addEventListener('mouseover', e => ruler.activate());
+    window.addEventListener('click', e => ruler.activate());
 })();

@@ -23,6 +23,9 @@
  * you click the add-on's icon.
  */
 document.addEventListener('DOMContentLoaded', async () => {
+    // Activate the ruler when the popup is shown.
+    broadcast('activate');
+
     // Read the add-on's options.
     const tab = await getCurrentTab();
     const options = new Options(tab.url);
@@ -78,5 +81,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Activate the ruler when entering the popup.  This gives direct feedback
     // to what option changes look like, and counters the deactivation of the
     // ruler when the mouse exits the window to open the popup.
-    window.addEventListener('mouseover', e => broadcast('activate'));
+    document.documentElement.addEventListener('mouseenter', e => broadcast('activate'));
+    document.documentElement.addEventListener('mouseleave', e => broadcast('deactivate'));
+
+    // Deactivate the ruler when the popup closes.
+    window.addEventListener('blur', e => {
+        if (e.target === window) {
+            broadcast('deactivate');
+        }
+    });
 }, false);
