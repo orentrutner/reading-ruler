@@ -68,7 +68,15 @@
     });
 
     // Deactivate the ruler when the mouse is outside the window.
-    window.addEventListener('mouseout', e => ruler.deactivate());
-    window.addEventListener('mouseover', e => ruler.activate());
+    window.addEventListener('mouseout', e => {
+        if (!e.relatedTarget) {
+            ruler.deactivate();
+        }
+    });
+    window.addEventListener('mouseover', e => {
+        if (!e.relatedTarget) {
+            ruler.activate();
+        }
+    });
     window.addEventListener('click', e => ruler.activate());
 })();
